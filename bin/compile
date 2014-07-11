@@ -65,6 +65,10 @@ elif test -d $cache_dir/node/node_modules; then
   status "Restoring node_modules directory from cache"
   cp -r $cache_dir/node/node_modules $build_dir/
 
+  # ugly fix
+  rm -rf "$build_dir/node_modules/shop-site"
+  rm -rf "$build_dir/node_modules/shop-admin"
+
   status "Pruning cached dependencies not specified in package.json"
   npm prune 2>&1 | indent
 
@@ -74,6 +78,8 @@ elif test -d $cache_dir/node/node_modules; then
   fi
 
 fi
+
+
 
 # Scope config var availability only to `npm install`
 (
@@ -112,10 +118,6 @@ cp -r $build_dir/.heroku $cache_dir/node
 status "Cleaning up node-gyp and npm artifacts"
 rm -rf "$build_dir/.node-gyp"
 rm -rf "$build_dir/.npm"
-
-# ugly fix
-rm -rf "$build_dir/node_modules/shop-site"
-rm -rf "$build_dir/node_modules/shop-admin"
 
 # If Procfile is absent, try to create one using `npm start`
 if [ ! -e $build_dir/Procfile ]; then
