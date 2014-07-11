@@ -68,6 +68,7 @@ elif test -d $cache_dir/node/node_modules; then
   # ugly fix
   rm -rf "$build_dir/node_modules/shop-site"
   rm -rf "$build_dir/node_modules/shop-admin"
+  rm -rf "$build_dir/node_modules/shop-common"
 
   status "Pruning cached dependencies not specified in package.json"
   npm prune 2>&1 | indent
@@ -151,7 +152,7 @@ echo "export PATH=\"\$HOME/vendor/node/bin:\$HOME/bin:\$HOME/node_modules/.bin:\
     # Install gulp locally
     npm install gulp
     status "Found gulpfile, running gulp heroku:$NODE_ENV task"
-    $build_dir/node_modules/.bin/gulp heroku:$NODE_ENV
+    $build_dir/node_modules/.bin/` heroku:$NODE_ENV
   else
     status "No gulpfile found"
   fi
